@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<MPD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:mpeg:DASH:schema:MPD:2011" xmlns:yt="http://youtube.com/yt/2012/10/10" xsi:schemaLocation="urn:mpeg:DASH:schema:MPD:2011 DASH-MPD.xsd" minBufferTime="PT1.500S" profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" type="static" mediaPresentationDuration="PT135.558S">
+		<Period>
+			<AdaptationSet mimeType="audio/mp4" subsegmentAlignment="true">
+				<Role schemeIdUri="urn:mpeg:DASH:role:2011" value="main"/>
+				<Representation id="140" codecs="mp4a.40.2" audioSamplingRate="44100" startWithSAP="1" bandwidth="127864">
+					<AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+					<BaseURL yt:contentLength="2153607">http://r12---sn-oguesn7y.c.youtube.com/videoplayback?id=bf5bb2419360daf1&amp;itag=140&amp;source=youtube&amp;ratebypass=yes&amp;mime=audio/mp4&amp;gir=yes&amp;clen=2153607&amp;lmt=1434104158910941&amp;dur=135.558&amp;signature=44AF1B72F3B7D403B5DCDF80CBEE4B55A7F914E7.7F78FB860B8D06FF0E53C1A6563935D81C240F13&amp;key=cms1&amp;ip=2001:e42:102:1536:160:16:120:71&amp;ipbits=0&amp;expire=2147483647&amp;sparams=clen,dur,expire,gir,id,ip,ipbits,itag,lmt,mime,mm,mn,ms,mv,nh,pl,ratebypass,source&amp;mm=31&amp;mn=sn-oguesn7y&amp;ms=au&amp;mt=1444358502&amp;mv=m&amp;nh=IgpwcjAzLm5ydDEwKgkxMjcuMC4wLjE&amp;pl=29
+					</BaseURL>
+					<SegmentBase indexRange="592-791" indexRangeExact="true"><Initialization range="0-591"/>
+				</SegmentBase>
+				</Representation>
+				<Representation id="141" codecs="mp4a.40.2" audioSamplingRate="44100" startWithSAP="1" bandwidth="255713">
+					<AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+					<BaseURL yt:contentLength="4322537">http://r12---sn-oguesn7y.c.youtube.com/videoplayback?id=bf5bb2419360daf1&amp;itag=141&amp;source=youtube&amp;ratebypass=yes&amp;mime=audio/mp4&amp;gir=yes&amp;clen=4322537&amp;lmt=1432755214918003&amp;dur=135.558&amp;signature=68DCF4EEC90B5D23F31E4081950F0E59DADB0000.0B09E6A37D37F9A6A25E7F22DC5B69ABE9C61348&amp;key=cms1&amp;ip=2001:e42:102:1536:160:16:120:71&amp;ipbits=0&amp;expire=2147483647&amp;sparams=clen,dur,expire,gir,id,ip,ipbits,itag,lmt,mime,mm,mn,ms,mv,nh,pl,ratebypass,source&amp;mm=31&amp;mn=sn-oguesn7y&amp;ms=au&amp;mt=1444358502&amp;mv=m&amp;nh=IgpwcjAzLm5ydDEwKgkxMjcuMC4wLjE&amp;pl=29
+					</BaseURL>
+					<SegmentBase indexRange="592-791" indexRangeExact="true">
+						<Initialization range="0-591"/>
+					</SegmentBase>
+				</Representation>
+			</AdaptationSet>
+			<AdaptationSet mimeType="video/mp4" subsegmentAlignment="true">
+				<Role schemeIdUri="urn:mpeg:DASH:role:2011" value="main"/>
+				<Representation id="133" codecs="avc1.4d4015" width="426" height="240" startWithSAP="1" bandwidth="246236" frameRate="30">
+					<BaseURL yt:contentLength="4088396">http://r12---sn-oguesn7y.c.youtube.com/videoplayback?id=bf5bb2419360daf1&amp;itag=133&amp;source=youtube&amp;ratebypass=yes&amp;mime=video/mp4&amp;gir=yes&amp;clen=4088396&amp;lmt=1434104775459021&amp;dur=135.502&amp;signature=2D61330554F486E742B763F3DF63D34768FA6492.66381B6CAAA07F3FFE978D62602F8CE4C32167A0&amp;key=cms1&amp;ip=2001:e42:102:1536:160:16:120:71&amp;ipbits=0&amp;expire=2147483647&amp;sparams=clen,dur,expire,gir,id,ip,ipbits,itag,lmt,mime,mm,mn,ms,mv,nh,pl,ratebypass,source&amp;mm=31&amp;mn=sn-oguesn7y&amp;ms=au&amp;mt=1444358502&amp;mv=m&amp;nh=IgpwcjAzLm5ydDEwKgkxMjcuMC4wLjE&amp;pl=29
+					</BaseURL>
+					<SegmentBase indexRange="673-1016" indexRangeExact="true">
+						<Initialization range="0-672"/>
+					</SegmentBase>
+				</Representation>
+				<Representation id="134" codecs="avc1.4d401e" width="640" height="360" startWithSAP="1" bandwidth="617173" frameRate="30">
+					<BaseURL yt:contentLength="8578458">http://r12---sn-oguesn7y.c.youtube.com/videoplayback?id=bf5bb2419360daf1&amp;itag=134&amp;source=youtube&amp;ratebypass=yes&amp;mime=video/mp4&amp;gir=yes&amp;clen=8578458&amp;lmt=1434104781970605&amp;dur=135.502&amp;signature=3A5C79B6B624F00E64ED1DC34071974DE809E377.2F002571837DA989EE647FEBB20B4503DA7E0DA9&amp;key=cms1&amp;ip=2001:e42:102:1536:160:16:120:71&amp;ipbits=0&amp;expire=2147483647&amp;sparams=clen,dur,expire,gir,id,ip,ipbits,itag,lmt,mime,mm,mn,ms,mv,nh,pl,ratebypass,source&amp;mm=31&amp;mn=sn-oguesn7y&amp;ms=au&amp;mt=1444358502&amp;mv=m&amp;nh=IgpwcjAzLm5ydDEwKgkxMjcuMC4wLjE&amp;pl=29
+					</BaseURL>
+					<SegmentBase indexRange="709-1052" indexRangeExact="true">
+						<Initialization range="0-708"/>
+					</SegmentBase>
+				</Representation>
+				<Representation id="135" codecs="avc1.4d401f" width="854" height="480" startWithSAP="1" bandwidth="1118095" frameRate="30">
+					<BaseURL yt:contentLength="15973445">http://r12---sn-oguesn7y.c.youtube.com/videoplayback?id=bf5bb2419360daf1&amp;itag=135&amp;source=youtube&amp;ratebypass=yes&amp;mime=video/mp4&amp;gir=yes&amp;clen=15973445&amp;lmt=1434104793587130&amp;dur=135.502&amp;signature=6CE8D1F4C782B3AA77A1564FB68C7AFD1ADE81C3.3E3BF7527DBC8FADEA467F1D1E1F4F550E5C5F68&amp;key=cms1&amp;ip=2001:e42:102:1536:160:16:120:71&amp;ipbits=0&amp;expire=2147483647&amp;sparams=clen,dur,expire,gir,id,ip,ipbits,itag,lmt,mime,mm,mn,ms,mv,nh,pl,ratebypass,source&amp;mm=31&amp;mn=sn-oguesn7y&amp;ms=au&amp;mt=1444358502&amp;mv=m&amp;nh=IgpwcjAzLm5ydDEwKgkxMjcuMC4wLjE&amp;pl=29
+					</BaseURL>
+					<SegmentBase indexRange="709-1052" indexRangeExact="true">
+						<Initialization range="0-708"/>
+					</SegmentBase>
+				</Representation>
+				<Representation id="160" codecs="avc1.4d400c" width="256" height="144" startWithSAP="1" bandwidth="110578" frameRate="15">
+					<BaseURL yt:contentLength="1803702">http://r12---sn-oguesn7y.c.youtube.com/videoplayback?id=bf5bb2419360daf1&amp;itag=160&amp;source=youtube&amp;ratebypass=yes&amp;mime=video/mp4&amp;gir=yes&amp;clen=1803702&amp;lmt=1434104781234720&amp;dur=135.535&amp;signature=251987BC6146201213A50E3C2185F300DB08D0D1.5115847A824F8E94FF3F7B89BAA8FCF828E9ADF0&amp;key=cms1&amp;ip=2001:e42:102:1536:160:16:120:71&amp;ipbits=0&amp;expire=2147483647&amp;sparams=clen,dur,expire,gir,id,ip,ipbits,itag,lmt,mime,mm,mn,ms,mv,nh,pl,ratebypass,source&amp;mm=31&amp;mn=sn-oguesn7y&amp;ms=au&amp;mt=1444358502&amp;mv=m&amp;nh=IgpwcjAzLm5ydDEwKgkxMjcuMC4wLjE&amp;pl=29
+					</BaseURL>
+					<SegmentBase indexRange="671-1014" indexRangeExact="true">
+						<Initialization range="0-670"/>
+					</SegmentBase>
+				</Representation>
+				<Representation id="136" codecs="avc1.4d401f" width="1280" height="720" startWithSAP="1" bandwidth="2270192" frameRate="30">
+					<BaseURL yt:contentLength="32721784">http://r12---sn-oguesn7y.c.youtube.com/videoplayback?id=bf5bb2419360daf1&amp;itag=136&amp;source=youtube&amp;ratebypass=yes&amp;mime=video/mp4&amp;gir=yes&amp;clen=32721784&amp;lmt=1434104856410172&amp;dur=135.502&amp;signature=5CB9A8132663A2ACD77A03C14BBD8120C2078954.53B0B72E705BB802163789FC616E1AADE6779EFA&amp;key=cms1&amp;ip=2001:e42:102:1536:160:16:120:71&amp;ipbits=0&amp;expire=2147483647&amp;sparams=clen,dur,expire,gir,id,ip,ipbits,itag,lmt,mime,mm,mn,ms,mv,nh,pl,ratebypass,source&amp;mm=31&amp;mn=sn-oguesn7y&amp;ms=au&amp;mt=1444358502&amp;mv=m&amp;nh=IgpwcjAzLm5ydDEwKgkxMjcuMC4wLjE&amp;pl=29
+					</BaseURL>
+					<SegmentBase indexRange="709-1052" indexRangeExact="true">
+						<Initialization range="0-708"/>
+					</SegmentBase>
+				</Representation>
+			</AdaptationSet>
+		</Period>
+	</MPD>
