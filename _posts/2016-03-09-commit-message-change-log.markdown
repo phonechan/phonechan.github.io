@@ -27,16 +27,16 @@ Git每次提交代码，都要填写Commit Message--提交说明，否则就不�
 格式化的commit message，有几个好处。
 ### 1.1、提供更多的历史信息，方便快速浏览
 比如,下面的命令是显示上次发布后的变动，每个commit占据一行，你只看首行，就知道某次commit的作用。
-```git
-$ git log <last tag> HEAD --pretty=format:%s
-```
+
+        $ git log <last tag> HEAD --pretty=format:%s
+
 ![](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010604.png)
 
 ### 1.2、可以过滤某些commit，便于快速查找信息。
 比如，下面的命令仅仅显示本次发布新增的功能。
-```git
-$ git log <last release> HEAD --grep feature
-```
+
+        $ git log <last release> HEAD --grep feature
+
 
 ### 1.3、可以直接从commit生成change log。
 change log是发布新版本的时候，用来说明与上一个版本的差异的文档。
@@ -45,13 +45,13 @@ change log是发布新版本的时候，用来说明与上一个版本的差异�
 
 ##二、commit message的格式
 每次提交，commit message都包括三个部分：Header，Body，Footer。
-```html
+{% highlight html %}
 <type>(<scope>): <subject>
 // 空一行
 <body>
 // 空一行
 <footer>
-```
+
 其中，Header是必要的，Body和Footer可以省略。
 不管是哪一个部分，任何一行都不得超过72个字符（或100个字符），这是为了避免自动换行从而影响美观。
 ### 2.1、Header
@@ -80,15 +80,15 @@ Header部分只有一行，包括三个字段：`type`(必需)，`scope`(可选)
 
 ### 2.2、Body
 Body 部分是对本次 commit 的详细描述，可以分成多行。下面是一个范例。
-```
-More detailed explanatory text, if necessary.  Wrap it to 
-about 72 characters or so. 
 
-Further paragraphs come after blank lines.
+    More detailed explanatory text, if necessary.  Wrap it to 
+    about 72 characters or so. 
 
-- Bullet points are okay, too
-- Use a hanging indent
-```
+    Further paragraphs come after blank lines.
+
+    - Bullet points are okay, too
+    - Use a hanging indent
+
 
 有两个注意点。
 （1）使用第一人称现在时，比如使用`change`而不是`changed`或`changes`。
@@ -99,7 +99,7 @@ Footer 部分只用于两种情况。
 ####【1】不兼容变动
 如果当前代码与上一个版本不兼容，泽Footer部分以`BREAKING CHANGE`开头，后面是对变动的描述、以及变动理由和迁移方法。
 
-```git
+
 BREAKING CHANGE: isolate scope bindings definition has changed.
 
     To migrate the code follow the example below:
@@ -117,24 +117,23 @@ BREAKING CHANGE: isolate scope bindings definition has changed.
     }
 
     The removed `inject` wasnt generaly useful for directives so there should be no code using it.
-```
+
 ####【2】关闭 Issue
 如果当前 commit 针对某个issue，那么可以在 Footer 部分关闭这个 issue 。
-```git
- Closes #234
-```
+
+    Closes #234
+
 也可以一次关闭多个 issue 。
-```
-Closes #123, #245, #992
-```
+
+    Closes #123, #245, #992
 
 ### 2.4、Revert
 还有一种特殊情况，如果当前 commit 用于撤销以前的 commit，则必须以revert:开头，后面跟着被撤销 Commit 的 Header。
-```git
-revert: feat(pencil): add 'graphiteWidth' option
 
-This reverts commit 667ecc1654a317a13331b17617d973392f415f02.
-```
+    revert: feat(pencil): add 'graphiteWidth' option
+
+    This reverts commit 667ecc1654a317a13331b17617d973392f415f02.
+
 > Body部分的格式是固定的，必须写成`This reverts commit <hash>`.，其中的hash是被撤销 commit 的 SHA 标识符。
 
 > 如果当前 commit 与被撤销的 commit，在同一个发布（release）里面，那么它们都不会出现在 Change log 里面。如果两者在不同的发布，那么当前 commit，会出现在 Change log 的`Reverts`小标题下面。
