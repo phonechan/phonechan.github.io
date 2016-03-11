@@ -19,15 +19,15 @@ $ git commit -m "commit message"
 $ git commit
 ```
 
-![git commit](https://www.zybuluo.com/static/img/logo.png)
+![git commit](/image/img20160312000.png)
 
 在这里，按键盘编辑插入命令`i`，基本上，你写什么都行~
 
-![](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010601.png)
+![](/image/img20160312001.png)
 
 **BUT，BUT，但是**，一般说来，commit message应该清晰明了，说明本次提交的目的。
 
-![](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010602.png)
+![](/image/img20160312002.png)
 
 目前，社区有多种commit message的写法规范，本文介绍一种目前使用最广泛的写法，比较合理和系统化，并且有配套的工具。
 
@@ -41,7 +41,7 @@ $ git commit
 $ git log <last tag> HEAD --pretty=format:%s
 ```
 
-![](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010604.png)
+![](/image/img20160312003.png)
 
 ### 1.2、可以过滤某些commit，便于快速查找信息。
 比如，下面的命令仅仅显示本次发布新增的功能。
@@ -52,7 +52,7 @@ $ git log <last release> HEAD --grep feature
 ### 1.3、可以直接从commit生成change log。
 change log是发布新版本的时候，用来说明与上一个版本的差异的文档。
 
-![](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010603.png)
+![](/image/img20160312004.png)
 
 ## 二、commit message的格式
 
