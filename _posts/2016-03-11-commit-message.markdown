@@ -78,12 +78,12 @@ change log是发布新版本的时候，用来说明与上一个版本的差异�
 
 Header部分只有一行，包括三个字段：`type`(必需)，`scope`(可选)和`subject`(必需)。
 
-#### 【1】type 
+#### 【1】type
 
  `type` 用于说明commit的类别，只允许使用下面7个标示。
 
 > * feat : 新功能（feature）
-> * fix : 修补bug 
+> * fix : 修补bug
 > * docs : 文档（documentation）
 > * style : 格式（不影响代码的运行）
 > * refactor : 重构（既不是新增功能，也不是修改代码的变动）
@@ -103,7 +103,7 @@ Header部分只有一行，包括三个字段：`type`(必需)，`scope`(可选)
 > * 以动词开头，使用第一人称现在时，比如`change`，而不是`changed`或`changes`
 > * 第一个字母小写
 > * 结尾不加句号（.）
-   
+
 
 
 ### 2.2、Body
@@ -111,8 +111,8 @@ Header部分只有一行，包括三个字段：`type`(必需)，`scope`(可选)
 Body 部分是对本次 commit 的详细描述，可以分成多行。下面是一个范例。
 
 ```
-More detailed explanatory text, if necessary.  Wrap it to 
-about 72 characters or so. 
+More detailed explanatory text, if necessary.  Wrap it to
+about 72 characters or so.
 
 Further paragraphs come after blank lines.
 
@@ -123,7 +123,7 @@ Further paragraphs come after blank lines.
 有两个注意点。
 （1）使用第一人称现在时，比如使用`change`而不是`changed`或`changes`。
 （2）应该说明代码变动的动机，以及与以前行为的对比。
-    
+
 ### 2.3、Footer
 
 Footer 部分只用于两种情况。
@@ -179,4 +179,3 @@ This reverts commit 667ecc1654a317a13331b17617d973392f415f02.
 > Body部分的格式是固定的，必须写成`This reverts commit <hash>`.，其中的hash是被撤销 commit 的 SHA 标识符。
 
 > 如果当前 commit 与被撤销的 commit，在同一个发布（release）里面，那么它们都不会出现在 Change log 里面。如果两者在不同的发布，那么当前 commit，会出现在 Change log 的`Reverts`小标题下面。
-
