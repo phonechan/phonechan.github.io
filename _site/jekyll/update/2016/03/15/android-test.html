@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>在Android Studio中进行单元测试和UI测试</title>
+  <meta name="description" content="概述  相信大家在 Android 开发过程中都会遇到需要单元测试和 UI 测试的时候，可是对于初学者又经常找不到头绪。今天我们就来讲讲 Android studio 里面是怎么进行测试的。">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://yourdomain.com/jekyll/update/2016/03/15/android-test.html">
+  <link rel="alternate" type="application/rss+xml" title="phonechan.github.io" href="http://yourdomain.com/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">phonechan.github.io</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">在Android Studio中进行单元测试和UI测试</h1>
+    <p class="post-meta"><time datetime="2016-03-15T16:52:05+08:00" itemprop="datePublished">Mar 15, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h2 id="section">概述</h2>
+<blockquote>
+  <p>相信大家在 Android 开发过程中都会遇到需要单元测试和 UI 测试的时候，可是对于初学者又经常找不到头绪。今天我们就来讲讲 Android studio 里面是怎么进行测试的。</p>
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>编写运行在本机 Java 虚拟机上的单元测试</li>
+    <li>编写运行在手机或者模拟器上的 Espresso 测试</li>
+  </ul>
+</blockquote>
+
+<h3 id="section-1">一、配置支持单元测试的工程</h3>
+
+<blockquote>
+  <p>在写测试之前，让我们做下简单的检查，确保工程配置正确。</p>
+</blockquote>
+
+<blockquote>
+  <p>首先，确认在 Build Variants 窗口内的 Test Artifact 中选择了 “Unit Tests” 。</p>
+</blockquote>
+
+<p><img src="/image/img20160315001.png" alt="" /></p>
+
+<blockquote>
+  <p>如果找不到 Build Variants 窗口的同学，可以按下图进行搜索。</p>
+</blockquote>
+
+<p><img src="/image/img20160315000.png" alt="" /></p>
+
+<blockquote>
+  <p>最后，打开工程的 <code class="highlighter-rouge">build.gradle</code> 文件，添加 JUnit4 依赖。</p>
+</blockquote>
+
+<ul>
+  <li>build.gradle</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:design:22.2.0'
+}
+</code></pre>
+</div>
+<blockquote>
+  <p>当你同步 gradle 配置是，可能需要联网下载 JUnit 依赖。</p>
+</blockquote>
+
+<h4 id="section-2">1、创建一个单元测试</h4>
+
+<blockquote>
+  <p>现在，工程目录是这个样子。</p>
+</blockquote>
+
+<p><img src="/image/img20160315002.png" alt="" /></p>
+
+<blockquote>
+  <p>万事俱备，让我们开始写一个测试吧。首先，创建一个简单的被测试类 <code class="highlighter-rouge">Calculate</code> 类。</p>
+</blockquote>
+
+<p><img src="/image/img20160315004.png" alt="" /></p>
+
+<ul>
+  <li>Calculate.java</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Calculator</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">sum</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">substract</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">divide</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">multiply</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>接下来，创建一个测试类。Android studio 提供了一个快速创建测试类的方法。只需要在编辑器内右击，选择 <code class="highlighter-rouge">Go to &gt; Test</code> ,然后 <code class="highlighter-rouge">Create a new test...</code></p>
+</blockquote>
+
+<p><img src="/image/img20160315003.png" alt="" /></p>
+
+<blockquote>
+  <p>在打开的对话窗口中，选择 JUnit4 和 “setUp/@Before” ，同时为所有的方法生成测试方法。</p>
+</blockquote>
+
+<p><img src="/image/img20160315005.png" alt="" /></p>
+
+<blockquote>
+  <p>这样，就会在正确的文件夹内生成测试类框架，在框架内填入测试方法即可。下面是一个示例：</p>
+</blockquote>
+
+<ul>
+  <li>CalculatorTest.java</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CalculatorTest</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">Calculator</span> <span class="n">calculator</span><span class="o">;</span>
+
+    <span class="nd">@Before</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setUp</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">calculator</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Calculator</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">testSum</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">6</span><span class="n">d</span><span class="o">,</span> <span class="n">calculator</span><span class="o">.</span><span class="na">sum</span><span class="o">(</span><span class="mi">1</span><span class="n">d</span><span class="o">,</span> <span class="mi">5</span><span class="n">d</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">testSubstract</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="n">d</span><span class="o">,</span> <span class="n">calculator</span><span class="o">.</span><span class="na">substract</span><span class="o">(</span><span class="mi">5</span><span class="n">d</span><span class="o">,</span> <span class="mi">4</span><span class="n">d</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">testDivide</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">4</span><span class="n">d</span><span class="o">,</span> <span class="n">calculator</span><span class="o">.</span><span class="na">divide</span><span class="o">(</span><span class="mi">20</span><span class="n">d</span><span class="o">,</span> <span class="mi">5</span><span class="n">d</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">testMultiply</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">10</span><span class="n">d</span><span class="o">,</span> <span class="n">calculator</span><span class="o">.</span><span class="na">multiply</span><span class="o">(</span><span class="mi">2</span><span class="n">d</span><span class="o">,</span> <span class="mi">5</span><span class="n">d</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h4 id="section-3">2、运行单元测试</h4>
+
+<blockquote>
+  <p>在运行单元测试之前，记得把 <code class="highlighter-rouge">Calculator.java</code> 里面的方法实现。</p>
+</blockquote>
+
+<ul>
+  <li>Calculator.java</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Calculator</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">sum</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">substract</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">divide</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">multiply</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<blockquote>
+
+  <p>可能你已经注意到了 Android Studio 从来没有让你连接设备或者启动模拟器来运行测试。那是因为，位于 src/tests 目录下的测试是运行在本地电脑 Java 虚拟机上的单元测试。编写测试，实现功能使测试通过，然后再添加更多的测试…这种工作方式使快速迭代成为可能，我们称之为测试驱动开发。值得注意的是，当在本地运行测试时，Gradle为你在环境变量中提供了包含 Android 框架的 android.jar 包。但是它们功能不完整（所以，打个比方，你不能单纯调用 Activity 的方法并指望它们生效）。推荐使用 <a href="http://mockito.org/">Mockito</a> 等 mocking 框架来 mock 你需要使用的任何 Android 方法。对于运行在设备上，并充分利用 Android 框架的测试，请继续阅读本篇教程的下个部分。</p>
+</blockquote>
+
+<h3 id="instrumentation">二、配置支持Instrumentation测试的工程</h3>
+
+<h4 id="section-4">1、添加依赖包</h4>
+<blockquote>
+
+  <p>虽然在 Android 框架内支持运行 instrumentation 测试，但是目前开发重心主要集中在刚刚发布的作为 Android Testing Support Library 一部分的新的 <code class="highlighter-rouge">AndroidJUnitRunner</code> 。测试库包含 Espresso ，用于运行功能UI测试的框架。让我们通过编辑 <code class="highlighter-rouge">build.gradle</code> 的相关部分来把它们添加进我们的工程。</p>
+</blockquote>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>defaultConfig {
+        applicationId "com.chenfeng.crash"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+
+        //add this line
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:design:22.2.0'
+
+    //add these lines
+    androidTestCompile 'com.android.support.test:runner:0.2'
+    androidTestCompile 'com.android.support.test:rules:0.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.1'
+}
+</code></pre>
+</div>
+<blockquote>
+  <p><strong>重要：</strong> 由于一些依赖版本冲突，你需要确认com.android.support:appcompat-v7库的版本号是<code class="highlighter-rouge">22.0.0</code>，像上面的代码片段一样。另外，Android Studio可能会提醒你Build Tools 22.0.1没有安装。你应该接受修复建议，Studio会为你安装Build Tools或者在build.gradle中把这行修改成已经安装在你电脑的版本。</p>
+</blockquote>
+
+<blockquote>
+  <p>如果报 design 包与 annotations 相关的冲突时，到 <code class="highlighter-rouge">最外层的 build.gradle</code> 文件里添加下面几行代码。</p>
+</blockquote>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>allprojects {
+    repositories {
+        jcenter()
+    }
+
+    //add these lines
+    configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:23.0.0'
+    }
+}
+</code></pre>
+</div>
+
+<p>上面的工作完成后，在 <strong>Build Variants</strong> 窗口内切换成 <strong>Android Instrumentation Tests</strong>，你的工程应该自动同步。如果没有，点击 <strong>Gradle sync</strong> 按钮。</p>
+
+<h4 id="section-5">2、添加简单的交互</h4>
+
+<blockquote>
+
+  <p>在使用Espresso进行UI测试前，让我们为app添加一些Views和简单的交互。我们使用一个用户可以输入名字的 EditText ，欢迎用户的 Button 和用于输出的 TextView 。</p>
+</blockquote>
+
+<p><img src="/image/img20160315006.png" alt="" /></p>
+
+<blockquote>
+  <p>打开  <code class="highlighter-rouge">res/layout/activity_test.xml</code> ，粘贴如下代码：</p>
+</blockquote>
+
+<ul>
+  <li>activity_test.xml</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;RelativeLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+    <span class="na">android:paddingBottom=</span><span class="s">"@dimen/activity_vertical_margin"</span>
+    <span class="na">android:paddingLeft=</span><span class="s">"@dimen/activity_horizontal_margin"</span>
+    <span class="na">android:paddingRight=</span><span class="s">"@dimen/activity_horizontal_margin"</span>
+    <span class="na">android:paddingTop=</span><span class="s">"@dimen/activity_vertical_margin"</span>
+    <span class="na">tools:context=</span><span class="s">".TestActivity"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/textView"</span>
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:text=</span><span class="s">"hello world"</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;EditText</span>
+        <span class="na">android:id=</span><span class="s">"@+id/editText"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_below=</span><span class="s">"@+id/textView"</span>
+        <span class="na">android:hint=</span><span class="s">"Enter your name here"</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;Button</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_below=</span><span class="s">"@+id/editText"</span>
+        <span class="na">android:onClick=</span><span class="s">"sayHello"</span>
+        <span class="na">android:text=</span><span class="s">"Say hello!"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/RelativeLayout&gt;</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>还需要在TestActivity.java中添加onClick handler：</p>
+</blockquote>
+
+<ul>
+  <li>TestActivity.java</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">sayHello</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">TextView</span> <span class="n">textView</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textView</span><span class="o">);</span>
+        <span class="n">EditText</span> <span class="n">editText</span> <span class="o">=</span> <span class="o">(</span><span class="n">EditText</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">editText</span><span class="o">);</span>
+        <span class="n">textView</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Hello, "</span> <span class="o">+</span> <span class="n">editText</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">toString</span><span class="o">()</span> <span class="o">+</span> <span class="s">"!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h4 id="espresso">3、创建并运行Espresso测试</h4>
+
+<blockquote>
+  <p>在 <code class="highlighter-rouge">androidTest</code> 里创建一个新的 Java 类。可以将它命名为 TestActivityInstrumentationTest.java ,将如下代码粘贴过去。</p>
+</blockquote>
+
+<ul>
+  <li>TestActivityInstrumentationTest.java</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@RunWith</span><span class="o">(</span><span class="n">AndroidJUnit4</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@LargeTest</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestActivityInstrumentationTest</span> <span class="o">{</span>
+
+
+    <span class="nd">@Rule</span>
+    <span class="kd">public</span> <span class="n">ActivityTestRule</span><span class="o">&lt;</span><span class="n">TestActivity</span><span class="o">&gt;</span> <span class="n">mActivityRule</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ActivityTestRule</span><span class="o">&lt;&gt;(</span>
+            <span class="n">TestActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">sayHello</span><span class="o">()</span> <span class="o">{</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">STRING_TO_BE_TYPED</span> <span class="o">=</span> <span class="s">"Peter "</span> <span class="o">+</span> <span class="n">i</span><span class="o">;</span>
+            <span class="n">onView</span><span class="o">(</span><span class="n">withId</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">editText</span><span class="o">)).</span><span class="na">perform</span><span class="o">(</span><span class="n">typeText</span><span class="o">(</span><span class="n">STRING_TO_BE_TYPED</span><span class="o">),</span> <span class="n">closeSoftKeyboard</span><span class="o">());</span> <span class="c1">//line 1</span>
+            <span class="n">onView</span><span class="o">(</span><span class="n">withText</span><span class="o">(</span><span class="s">"Say hello!"</span><span class="o">)).</span><span class="na">perform</span><span class="o">(</span><span class="n">click</span><span class="o">());</span> <span class="c1">//line 2</span>
+
+            <span class="n">String</span> <span class="n">expectedText</span> <span class="o">=</span> <span class="s">"Hello, "</span> <span class="o">+</span> <span class="n">STRING_TO_BE_TYPED</span> <span class="o">+</span> <span class="s">"!"</span><span class="o">;</span>
+            <span class="n">onView</span><span class="o">(</span><span class="n">withId</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textView</span><span class="o">)).</span><span class="na">check</span><span class="o">(</span><span class="n">matches</span><span class="o">(</span><span class="n">withText</span><span class="o">(</span><span class="n">expectedText</span><span class="o">)));</span> <span class="c1">//line 3</span>
+            <span class="n">onView</span><span class="o">(</span><span class="n">withId</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">editText</span><span class="o">)).</span><span class="na">perform</span><span class="o">(</span><span class="n">clearText</span><span class="o">());</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<blockquote>
+  <p>测试类通过 <code class="highlighter-rouge">AndroidJUnitRunner</code> 运行，并执行 <code class="highlighter-rouge">sayHello()</code> 方法。下面将逐行解释都做了什么：</p>
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>首先，找到 ID 为 editText 的 view ，输入 Peter ，然后关闭键盘；</li>
+    <li>接下来，点击 Say hello! 的 View ，我们没有在布局的XML中为这个 Button 设置 id ，因此，通过搜索它上面的文字来找到它；</li>
+    <li>最后，将 TextView 上的文本同预期结果对比，如果一致则测试通过；</li>
+  </ul>
+</blockquote>
+
+<blockquote>
+  <p>你也可以右键点击域名运行测试，选择 <code class="highlighter-rouge">Run&gt;MainActivityInstrume...</code>。</p>
+</blockquote>
+
+<p><img src="/image/img20160315007.png" alt="" /></p>
+
+<blockquote>
+  <p>这样就会在模拟器或者连接的设备上运行测试，你可以在手机屏幕上看到被执行的动作（比如在 EditText 上打字）。最后会在 Android Studio 输出通过和失败的测试结果。</p>
+</blockquote>
+
+<p><img src="/image/img20160315008.png" alt="" /></p>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">phonechan.github.io</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>phonechan.github.io</li>
+          <li><a href="mailto:phonechan@foxmail.com">phonechan@foxmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/phonechan"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">phonechan</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/phonechan"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">phonechan</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
