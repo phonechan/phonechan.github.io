@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Markdown 语法手册"
-date:   2016-03-25 16:52:05 +0800
+date:   2016-03-25 13:52:05 +0800
 categories: jekyll update
 ---
 
@@ -13,7 +13,7 @@ categories: jekyll update
 |--|--|--|--|
 | 粗体 | **粗体** |  `**粗体**`  |  两边加** |
 | 斜体 | *斜体* | `*斜体*` | 两边加* |
-| 中划线 | ~中划线~ | `~中划线~` | 两边加~ |
+| 中划线 | <S>中划线</S> | `<S>中划线</S>` | 两边加~ |
 | 单行代码 | `Log.i("Hello World!")` | \`Log.i("Hello World!")\` | 两边加`` |
 | 插入图片 | ![Image](http://www.trinea.cn/rss.png)| `![Image](http://www.trinea.cn/rss.png)` | [] 中间为占位符,() 中间为图片链接 |
 | 链接 | [Visit Github](http://www.github.com) | `[Visit Github](http://www.github.com)` | [] 中间为显示文字,() 中间为链接 |
