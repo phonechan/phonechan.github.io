@@ -2,7 +2,7 @@
 layout: post
 title:  "Commit message 和 Change log 编写指南"
 date:   2016-03-11 23:07:05 +0800
-categories: jekyll update
+categories: git
 ---
 
 

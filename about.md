@@ -15,4 +15,4 @@ permalink: /about/
 
 ![](/image/mmqrcode.png)
 
-**Link to** [ElizabethMa](https://github.com/ElizabethMa)
+**Link to** [yanqiong.github.io](https://yanqiong.github.io)

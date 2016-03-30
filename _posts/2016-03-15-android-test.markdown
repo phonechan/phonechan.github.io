@@ -2,7 +2,7 @@
 layout: post
 title:  "在Android Studio中进行单元测试和UI测试"
 date:   2016-03-15 16:52:05 +0800
-categories: jekyll update
+categories: android
 ---
 
 ## 概述

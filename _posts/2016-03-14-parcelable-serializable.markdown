@@ -2,7 +2,7 @@
 layout: post
 title:  "Android系统中Parcelable和Serializable的区别"
 date:   2016-03-14 11:26:05 +0800
-categories: jekyll update
+categories: android
 ---
 
 
