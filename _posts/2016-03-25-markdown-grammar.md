@@ -2,7 +2,7 @@
 layout: post
 title:  "Markdown 语法手册"
 date:   2016-03-25 13:52:05 +0800
-categories: markdown
+categories: note
 ---
 
 
